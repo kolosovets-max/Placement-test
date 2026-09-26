@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Placement Test</title>
+<style>
+:root{
+  --bg:#eef6e3; --bg2:#e4f0d5;
+  --surface:#ffffff; --surface2:#f7fbf1;
+  --ink:#2f2a21; --ink-soft:#6d6454; --ink-faint:#9a9285;
+  --line:#d5e3c2; --line-strong:#b9cfa0;
+  --accent:#43892f; --accent-dark:#356d25; --accent-soft:#e2f0d2;
+  --warn:#9d5a16; --warn-soft:#fdf1dd;
+  --danger:#a83232; --danger-soft:#fbeaea;
+  --r:14px; --r-sm:10px;
+  --shadow:0 1px 2px rgba(47,42,33,.06), 0 4px 16px rgba(47,42,33,.05);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  padding:0 0 88px; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+h1{font-size:clamp(26px,6vw,34px);line-height:1.2;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:clamp(20px,4.6vw,24px);line-height:1.25;margin:0 0 4px;letter-spacing:-.01em}
+h3{font-size:16px;margin:26px 0 10px;color:var(--ink-soft);font-weight:700;
+   text-transform:uppercase;letter-spacing:.07em}
+p{margin:0 0 14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+      padding:20px;box-shadow:var(--shadow);margin:0 0 16px}
+.muted{color:var(--ink-soft);font-size:15px}
+.tiny{font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
+.hidden{display:none !important}
+
+/* ---------- buttons ---------- */
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:14px 26px;border-radius:var(--r-sm);
+  background:var(--accent);color:#fff;font-weight:650;font-size:17px;
+  border:1px solid var(--accent-dark);width:100%;transition:background .12s}
+.btn:hover:not(:disabled){background:var(--accent-dark)}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn:disabled{background:#c3cdb6;border-color:#b3bda6;cursor:not-allowed}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);font-weight:600}
+.btn-ghost:hover:not(:disabled){background:var(--surface2)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn-row .btn{width:auto;flex:1 1 160px}
+
+/* ---------- start screen ---------- */
+.rules{list-style:none;margin:0;padding:0}
+.rules li{position:relative;padding:0 0 0 30px;margin:0 0 11px;font-size:16px;line-height:1.5}
+.rules li::before{content:"";position:absolute;left:8px;top:.62em;width:7px;height:7px;
+  border-radius:50%;background:var(--accent)}
+.rules b{font-weight:680}
+.field{margin:0 0 14px}
+.field label{display:block;font-weight:640;font-size:15px;margin:0 0 6px}
+.field input{width:100%;min-height:52px;padding:13px 15px;font:inherit;color:var(--ink);
+  background:var(--surface);border:1.5px solid var(--line-strong);border-radius:var(--r-sm)}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.notice{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:var(--r-sm);padding:12px 14px;font-size:14.5px;line-height:1.5;color:var(--ink-soft);margin:0 0 18px}
+.err{color:var(--danger);font-size:14.5px;font-weight:600;margin:10px 0 0}
+
+/* ---------- test header ---------- */
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg2);
+  border-bottom:1px solid var(--line-strong);padding:10px 0}
+.topbar .wrap{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.crumb{font-size:14px;font-weight:660;letter-spacing:.01em}
+.crumb span{color:var(--ink-soft);font-weight:500}
+.clock{font-variant-numeric:tabular-nums;font-size:15px;font-weight:680;
+  padding:5px 11px;border-radius:99px;background:var(--surface);border:1px solid var(--line-strong);white-space:nowrap}
+.clock.low{background:var(--warn-soft);border-color:#e6c48c;color:var(--warn)}
+.bar{height:4px;background:var(--line);border-radius:99px;overflow:hidden;margin:9px 0 0}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.flash{background:var(--warn-soft);border:1px solid #e6c48c;color:var(--warn);
+  border-radius:var(--r-sm);padding:11px 14px;font-size:14.5px;font-weight:600;margin:14px 0 0}
+
+/* ---------- task body ---------- */
+.instr{background:var(--accent-soft);border-radius:var(--r-sm);padding:13px 15px;
+  font-size:15.5px;line-height:1.5;margin:0 0 18px;font-weight:520}
+.passage{background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:16px 17px;margin:0 0 18px}
+.passage h4{margin:0 0 12px;font-size:18px;letter-spacing:-.01em}
+.passage p{margin:0 0 13px;font-size:16.5px;line-height:1.85}
+.passage p:last-child{margin:0}
+.para-tag{display:inline-block;font-weight:750;color:var(--accent-dark);margin-right:7px}
+
+.q{border-top:1px solid var(--line);padding:18px 0 4px;margin:0}
+.q:first-of-type{border-top:0;padding-top:4px}
+.q-head{display:flex;gap:10px;align-items:baseline;margin:0 0 11px}
+.q-num{flex:0 0 auto;min-width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--ink);color:#fff;border-radius:7px;font-size:13.5px;font-weight:700;padding:0 6px}
+.q-text{font-size:16.5px;line-height:1.5;font-weight:520}
+.chip{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  background:var(--surface2);border:1px solid var(--line-strong);color:var(--ink-soft);
+  border-radius:99px;padding:3px 10px;margin:0 0 9px}
+
+.opts{display:flex;flex-direction:column;gap:9px;margin:0 0 4px}
+.opt{display:flex;align-items:flex-start;gap:11px;min-height:48px;padding:12px 14px;
+  background:var(--surface);border:1.5px solid var(--line-strong);border-radius:var(--r-sm);
+  text-align:left;font-size:16px;line-height:1.45;transition:background .12s,border-color .12s}
+.opt:hover{background:var(--surface2)}
+.opt .mark{flex:0 0 auto;width:25px;height:25px;border-radius:50%;border:1.5px solid var(--line-strong);
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+  color:var(--ink-soft);background:var(--surface)}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"] .mark{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ---------- inline inputs ---------- */
+.gapunit{display:inline-block;white-space:nowrap;vertical-align:middle;margin:0 1px}
+.inl{display:inline-block;min-width:6.5em;width:8em;max-width:100%;min-height:44px;
+  padding:9px 9px;font:inherit;font-size:16px;color:var(--ink);text-align:center;
+  background:var(--surface);border:0;border-bottom:2px solid var(--line-strong);border-radius:4px}
+.inl:focus{outline:none;border-bottom-color:var(--accent);background:var(--accent-soft)}
+.inl.filled{border-bottom-color:var(--accent)}
+.cue{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.03em;
+  color:var(--accent-dark);background:var(--accent-soft);border-radius:5px;padding:1px 6px;
+  margin:0 2px;white-space:nowrap;vertical-align:baseline}
+.gnum{display:inline-block;font-size:12px;font-weight:750;color:#fff;background:var(--ink);
+  border-radius:5px;padding:1px 5px;margin:0 3px;vertical-align:1px}
+
+/* ---------- Task 2 word bank ---------- */
+.gap-btn{display:inline-flex;align-items:center;justify-content:center;min-width:64px;min-height:44px;
+  padding:4px 14px;margin:2px;font:inherit;font-size:15px;font-weight:700;
+  background:var(--surface);border:2px dashed var(--line-strong);border-radius:8px;color:var(--ink-soft);
+  vertical-align:middle;line-height:1.2}
+.gap-btn.active{border-style:solid;border-color:var(--accent);background:var(--accent-soft);color:var(--accent-dark)}
+.gap-btn.set{border-style:solid;border-color:var(--accent);background:var(--accent-soft);
+  color:var(--ink);font-weight:600;font-size:14.5px;min-width:0;text-align:left;
+  display:inline;padding:2px 7px;white-space:normal}
+.bank{display:flex;flex-direction:column;gap:8px;margin:0 0 6px}
+.bank-item{display:flex;align-items:flex-start;gap:10px;min-height:46px;padding:11px 13px;text-align:left;
+  background:var(--surface);border:1.5px solid var(--line-strong);border-radius:var(--r-sm);font-size:15.5px;line-height:1.45}
+.bank-item:hover:not(:disabled){background:var(--surface2)}
+.bank-item .mark{flex:0 0 auto;width:25px;height:25px;border-radius:7px;border:1.5px solid var(--line-strong);
+  display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.bank-item.used{text-decoration:line-through;color:var(--ink-faint);background:var(--surface2);
+  border-style:dashed;cursor:default}
+.bank-item.used .mark{color:var(--ink-faint)}
+
+/* ---------- Task 7 / 8 ---------- */
+.sent{font-size:16.5px;line-height:2.15}
+.lead{background:var(--surface2);border-left:3px solid var(--line-strong);
+  padding:9px 13px;border-radius:0 8px 8px 0;font-size:16px;margin:0 0 11px}
+.kw{display:inline-block;font-size:13px;font-weight:780;letter-spacing:.09em;
+  background:var(--ink);color:#fff;border-radius:6px;padding:3px 10px;margin:0 0 10px}
+.count{font-size:13.5px;font-weight:660;color:var(--ink-soft);margin:7px 0 0}
+.count.bad{color:var(--danger)}
+.count.ok{color:var(--accent-dark)}
+
+/* ---------- Task 9 ---------- */
+textarea{width:100%;min-height:270px;padding:14px 15px;font:inherit;font-size:16.5px;line-height:1.7;
+  color:var(--ink);background:var(--surface);border:1.5px solid var(--line-strong);
+  border-radius:var(--r-sm);resize:vertical}
+textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+/* ---------- audio ---------- */
+.player{background:var(--surface2);border:1px solid var(--line-strong);border-radius:var(--r);
+  padding:18px;margin:0 0 18px;text-align:center}
+.plays{display:inline-block;font-size:14px;font-weight:700;letter-spacing:.02em;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:99px;
+  padding:5px 14px;margin:0 0 14px}
+.plays.none{background:var(--danger-soft);border-color:#e0b4b4;color:var(--danger)}
+.plays.playing{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-dark)}
+.play-btn{min-height:56px;font-size:17.5px}
+.pbar{height:7px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 8px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s linear}
+.ptime{font-variant-numeric:tabular-nums;font-size:14px;font-weight:660;color:var(--ink-soft)}
+.locked{background:var(--danger-soft);border:1px solid #e0b4b4;color:var(--danger);
+  border-radius:var(--r-sm);padding:12px 14px;font-size:15px;font-weight:620;margin:14px 0 0}
+
+/* ---------- footer nav ---------- */
+.footbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--bg2);
+  border-top:1px solid var(--line-strong);padding:11px 0 calc(11px + env(safe-area-inset-bottom))}
+.footbar .wrap{display:flex;align-items:center;gap:12px}
+.footbar .btn{flex:1}
+.left-note{font-size:13.5px;color:var(--ink-soft);font-weight:600;white-space:nowrap}
+
+/* ---------- final screens ---------- */
+.final{text-align:center;padding:36px 20px}
+.tick{width:64px;height:64px;border-radius:50%;background:var(--accent);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;font-size:34px;margin:0 0 18px}
+.tick.warn{background:var(--warn)}
+.tick.stop{background:var(--ink-soft)}
+pre.res{text-align:left;white-space:pre-wrap;word-break:break-word;font-size:13px;line-height:1.55;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  background:var(--surface2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:14px;max-height:340px;overflow:auto;margin:16px 0}
+
+/* ---------- modal ---------- */
+.veil{position:fixed;inset:0;z-index:60;background:rgba(47,42,33,.45);
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--surface);border-radius:var(--r);padding:22px;max-width:420px;width:100%;
+  box-shadow:0 12px 40px rgba(47,42,33,.22)}
+.modal p{font-size:16.5px;line-height:1.5}
+
+@media (min-width:768px){
+  body{font-size:17.5px}
+  .card{padding:26px 28px}
+  .btn-row .btn{flex:0 1 auto;min-width:190px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- плеер объявлен в разметке; путь относительный, файл лежит рядом с index.html -->
+<audio id="listening-audio" src="listening.mp3" preload="metadata"></audio>
+
+<!-- скрытая цель для запасного маршрута отправки (iframe + form) -->
+<iframe name="gfsink" id="gfsink" style="display:none" title="submit sink"></iframe>
+
+<script>
+/* =====================================================================
+   PLACEMENT TEST A — 10th GRADE
+   Один файл. Без внешних зависимостей: ни библиотек, ни CDN, ни шрифтов.
+   Работает офлайн; интернет нужен только на финальную отправку в Google Форму.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. КОНФИГУРАЦИЯ — единственное место, где что-то нужно менять
+   ------------------------------------------------------------------ */
+var CONFIG = {
+
+  // ID формы из адреса .../forms/d/e/<FORM_ID>/viewform
+  FORM_ID: '1FAIpQLScX7PwDRpRQFRlVvGYQf1pg-DH20iPolMLk0IgsfC_8uM3qpw',
+
+  // Номера полей формы. Снимаются из предзаполненной ссылки:
+  // форма → ⋮ → «Получить предзаполненную ссылку» → вписать во все поля
+  // слово «тест» → «Получить ссылку» → в адресе видны entry.XXXXXXXXX
+  ENTRY: {
+    firstName: 'entry.87069478',    // Имя            — Текст (строка)
+    surname:   'entry.327805807',   // Фамилия        — Текст (строка)
+    group:     'entry.29988280',    // Группа         — Текст (строка)
+    score:     'entry.1304620170',  // Баллы          — Текст (строка)
+    level:     'entry.1905183439',  // Уровень        — Текст (строка)
+    errors:    'entry.580301486',   // Ошибки         — Текст (АБЗАЦ)
+
+    time:      'entry.1700793576',  // Время          — Текст (строка)
+    byTask:    'entry.1327990814',  // По заданиям    — Текст (АБЗАЦ)
+    writing:   'entry.1071151568'   // Сочинение      — Текст (АБЗАЦ)
+  },
+
+  MINUTES: 85,          // лимит времени на весь тест
+  AUDIO_PLAYS: 2,       // сколько раз можно прослушать запись
+  TOTAL_MARKS: 70,      // Task 1–8; Task 9 не оценивается
+  ERR_LIMIT: 8000,      // предохранитель длины поля «Ошибки»
+  WRITING_LIMIT: 6000,  // предохранитель длины поля «Writing»
+  TIER_PASS: 0.60,      // порог яруса для диагностики уровня
+
+  STORE_PROG: 'pta26_prog',   // прогресс: ответы, таймер, попытки прослушивания
+  STORE_DONE: 'pta26_done',   // отметка «тест сдан»
+  RESET_PARAM: 'teacher',     // сброс для учителя: адрес с ?teacher=reset
+  RESET_VALUE: 'reset'
+};
+
+/* Границы оценки по проценту от TOTAL_MARKS */
+var GRADES = [ {min:81,g:5}, {min:61,g:4}, {min:41,g:3}, {min:0,g:2} ];
+
+/* Процентная полоса уровня (выводится рядом с ярусным вердиктом) */
+var BANDS = [
+  {max:40,  label:'B1 / B1+'},
+  {max:60,  label:'B2 approaching'},
+  {max:80,  label:'solid B2'},
+  {max:92,  label:'B2+'},
+  {max:100, label:'C1'}
+];
+
+/* ---------------------------------------------------------------------
+   2. ТЕКСТЫ ИНТЕРФЕЙСА — весь экран по-английски
+   ------------------------------------------------------------------ */
+var T = {
+  title:'Placement Test',
+  sub:'9 tasks · 70 marks · 85 minutes',
+  first:'First name', last:'Surname', group:'Group',
+  notice:'Your name, group and result are sent to your teacher and used for assessment only.',
+  rules:[
+    'You have <b>85 minutes</b>. The timer starts when you press Start and keeps running if you reload the page.',
+    'The Listening recording can be played <b>twice</b>. You cannot pause or rewind it.',
+    'Once you move on to the next task, you <b>cannot go back</b>.',
+    'Your answers are saved automatically.'
+  ],
+  start:'Start the test',
+  fillAll:'Please fill in all three fields.',
+  taskOf:function(i,n,sec){return 'Task '+i+' of '+n+' <span>· '+sec+'</span>';},
+  timeLeft:function(s){return 'Time left '+s;},
+  fiveLeft:'5 minutes left',
+  next:'Next task →',
+  finish:'Finish and submit',
+  noReturn:'You cannot return to this task. Continue?',
+  cancel:'Cancel', cont:'Continue',
+  blanks:function(n){return n+' item'+(n===1?'':'s')+' still blank. Continue anyway?';},
+  blockSubmit:function(n){return 'Please answer all items before you submit. '+n+' item'+(n===1?'':'s')+' still blank.';},
+  blockWriting:'Please write your paragraph before you submit.',
+  tabAway:'You have left the test page. Please stay on this page until you finish.',
+  play:'▶  Play the recording',
+  playsLeft:function(n,of){return 'Plays left: '+n+' of '+of;},
+  playing:'Playing…',
+  noPlays:'No plays left. The recording is now locked.',
+  noPause:'You cannot pause or rewind. Listen all the way through.',
+  extract:function(n){return 'Extract '+n;},
+  phrases:'Phrases',
+  bankHint:'Tap a gap, then tap a phrase.',
+  words:function(n){return n+' word'+(n===1?'':'s');},
+  wordsKwt:function(n){return n+' word'+(n===1?'':'s')+' — use two to five words';},
+  wordsW:function(n){return n+' word'+(n===1?'':'s')+' — write 100–150 words';},
+  chooseQ:'Choose one question:',
+  sending:'Submitting your work…',
+  doneTitle:'Thank you. Your work has been submitted.',
+  doneSub:'You may now close this page.',
+  timeUp:'Time is up. Your work has been submitted.',
+  failTitle:'We could not send your work automatically.',
+  failSub:'Please copy the result below and give it to your teacher.',
+  copy:'Copy result', copied:'Copied', retry:'Try again',
+  alreadyTitle:'You have already taken this test.',
+  loadErr:'Something went wrong loading the test. Please reload the page.'
+};
+
+/* ---------------------------------------------------------------------
+   3. ВИДИМЫЕ ДАННЫЕ ЗАДАНИЙ
+   Здесь только то, что и так на экране: тексты, вопросы, варианты,
+   подсказки, уровневые теги. Ключей здесь НЕТ — они в REF_BLOB ниже.
+   ------------------------------------------------------------------ */
+var DATA = [{"id":1,"section":"Listening","format":"mcq","shuffle":true,"audio":true,"marks":7,"title":"Task 1","instruction":"Listen to five short extracts. Some extracts have more than one question. Choose the correct answer, A, B or C.","items":[{"n":1,"extract":1,"level":"B2","q":"Why do the mother and son have to walk to the station?","opts":[{"id":"a","t":"The station car park is closed."},{"id":"b","t":"They are stuck in a traffic jam."},{"id":"c","t":"The son's train has been delayed."}]},{"n":2,"extract":2,"level":"B2","q":"Why was the band's concert in Edinburgh cancelled?","opts":[{"id":"a","t":"The singer was unwell."},{"id":"b","t":"The venue was unavailable."},{"id":"c","t":"Not enough tickets were sold."}]},{"n":3,"extract":2,"level":"B2+","q":"What does the singer correct himself about during the concert?","opts":[{"id":"a","t":"the name of the first song"},{"id":"b","t":"the date of the replacement gig"},{"id":"c","t":"the release date of the new CD"}]},{"n":4,"extract":3,"level":"B2+","q":"What does Jamie suggest about life at university?","opts":[{"id":"a","t":"It is less demanding than living at home."},{"id":"b","t":"It involves more responsibility than he had expected."},{"id":"c","t":"He regrets not staying at home like Katie."}]},{"n":5,"extract":4,"level":"B2+","q":"What have residents of York who are most at risk been advised to do?","opts":[{"id":"a","t":"leave their homes immediately"},{"id":"b","t":"be prepared to evacuate if necessary"},{"id":"c","t":"avoid crossing bridges over the river"}]},{"n":6,"extract":1,"level":"C1","q":"How does the mother respond to her son's complaint about the backpack?","opts":[{"id":"a","t":"She dismisses it, implying the problem is of his own making."},{"id":"b","t":"She sympathises and offers to help carry it."},{"id":"c","t":"She warns him it may make them miss the train."}]},{"n":7,"extract":5,"level":"C1","q":"What is the main purpose of the final extract?","opts":[{"id":"a","t":"to warn listeners about the health risks of digital devices"},{"id":"b","t":"to persuade listeners to purchase a product"},{"id":"c","t":"to explain the science behind sleep problems"}]}]},{"id":2,"section":"Reading","format":"bank","shuffle":false,"marks":6,"title":"Task 2","instruction":"Read the text and fill in the gaps A–F with the phrases 1–7. One of the phrases in the list 1–7 is extra.","passageTitle":"Smart Cities","paragraphs":[{"label":"A","text":"A smart city is an urban area in which digital technology is harnessed to enhance the quality of life of its residents. A vast network of sensors monitors everything from traffic flow and air quality to the level of rubbish in the bins. All this information is transmitted to central computer systems, {{A}}, enabling officials to make far better-informed decisions about how the city should be run."},{"label":"B","text":"Converting this ocean of raw data into workable solutions calls for highly qualified specialists. Urban planners, software engineers and data analysts increasingly find themselves working side by side, and demand for their expertise has soared. Indeed, so rapid has the field's growth been that many city councils complain that {{B}}, a bottleneck which inevitably slows down the development of new projects."},{"label":"C","text":"The benefits for ordinary citizens are far from negligible. In Barcelona, for instance, smart parking sensors guide drivers to vacant spaces, {{C}}. In Amsterdam, meanwhile, streetlights brighten automatically as pedestrians approach and dim once they have passed, generating considerable energy savings."},{"label":"D","text":"Not everyone, however, greets these developments with enthusiasm. Every sensor and camera gathers information about individuals as well as about the city itself, and a growing number of residents have voiced concerns about {{D}}. Constant monitoring, they argue, however well-intentioned it may be, could all too easily shade into outright surveillance."},{"label":"E","text":"Public opinion consequently remains sharply divided. For some, sacrificing a degree of privacy is {{E}}, given that smart technologies render cities cleaner, safer and more convenient. Others insist that stringent legislation is required to prevent companies and local authorities from misusing the information they accumulate."},{"label":"F","text":"Whatever stance one takes, one thing appears beyond doubt: the technology is here to stay. Over the coming decade, experts predict that {{F}}, from healthcare systems capable of responding instantly to emergencies to transport networks that virtually manage themselves. The real challenge will be to reap these benefits without permitting technology to govern our lives."}],"bank":[{"id":"1","t":"thereby reducing both congestion and pollution in the city centre"},{"id":"2","t":"a reasonable price to pay for such improvements"},{"id":"3","t":"where it is processed and analysed"},{"id":"4","t":"which explains why the number of city dwellers is steadily declining"},{"id":"5","t":"there is a serious shortage of suitably trained staff"},{"id":"6","t":"even more aspects of urban life will become interconnected"},{"id":"7","t":"how this personal data might be stored and exploited"}],"items":[{"n":"A","level":"B2"},{"n":"B","level":"B2+"},{"n":"C","level":"B2+"},{"n":"D","level":"B2"},{"n":"E","level":"B2+"},{"n":"F","level":"B2+"}]},{"id":3,"section":"Reading","format":"mcq","shuffle":true,"marks":7,"title":"Task 3","instruction":"Read the text and choose the best answer (A, B, C or D).","passageTitle":"Living Everywhere and Nowhere: The Rise of the Digital Nomad","paragraphs":[{"text":"A decade ago, the idea of running a career from a beach café would have struck most employers as a fantasy. Today, thanks to fast wireless internet, cloud-based software and video conferencing, millions of people describe themselves as 'digital nomads' — professionals who combine remote work with long-term travel. Estimates vary, but some studies suggest that over 35 million people worldwide now live this way, and dozens of countries have introduced special visas to attract them."},{"text":"The appeal is easy to understand. Nomads frequently mention the freedom to design their own routine, the chance to experience other cultures at a deeper level than an ordinary tourist ever could, and, not least, the financial advantages: a salary earned in London or New York stretches a great deal further in Lisbon or Bali."},{"text":"The reality, however, is rarely as glamorous as the carefully filtered photographs on social media imply. Behind the images of laptops beside swimming pools lie less photogenic struggles: unreliable Wi-Fi, tax paperwork spanning several countries, and meetings scheduled for the middle of the night because colleagues are ten time zones away. Loneliness is perhaps the greatest challenge of all. Friendships formed on the road tend to be intense but brief, and many nomads admit that constantly saying goodbye eventually wears them down."},{"text":"Host cities have mixed feelings too. Cafés, co-working spaces and landlords benefit from the newcomers' spending power, yet that same spending power can drive up rents until local residents are priced out of their own neighbourhoods. In Lisbon and Mexico City, protests have already taken place, with campaigners arguing that what looks like harmless lifestyle migration is, in effect, a new form of gentrification."},{"text":"Employers, for their part, remain divided. Some firms have embraced 'work from anywhere' policies, convinced that flexibility helps them attract talented staff who would otherwise look elsewhere. Others worry about data security, blurred working hours and the legal complications of having employees scattered across dozens of jurisdictions, and have begun quietly calling their staff back to the office."},{"text":"What seems clear is that digital nomadism is maturing rather than fading. The pioneers who once treated it as an extended holiday are giving way to professionals who plan carefully, stay in each place for months rather than days, and think seriously about taxes, insurance and community. The lifestyle may never suit the majority — but it is no longer a fringe experiment either."}],"items":[{"n":1,"level":"B2","q":"According to the first paragraph, digital nomadism has become possible mainly because of","opts":[{"id":"a","t":"changes in employment law."},{"id":"b","t":"developments in technology."},{"id":"c","t":"cheaper international travel."},{"id":"d","t":"government visa schemes."}]},{"n":2,"level":"B2","q":"In the second paragraph, what financial point does the writer make?","opts":[{"id":"a","t":"Nomads generally earn higher salaries than office workers."},{"id":"b","t":"Money earned in one place can be worth more in another."},{"id":"c","t":"Most nomads choose destinations where they can find work easily."},{"id":"d","t":"Travelling long-term is cheaper than ordinary tourism."}]},{"n":3,"level":"B2+","q":"What does the writer suggest about images of nomad life on social media?","opts":[{"id":"a","t":"They give a misleading impression of the lifestyle."},{"id":"b","t":"They are mostly produced for advertising purposes."},{"id":"c","t":"They discourage people from becoming nomads."},{"id":"d","t":"They focus too much on technical problems."}]},{"n":4,"level":"B2+","q":"According to the third paragraph, the most serious difficulty for many nomads is","opts":[{"id":"a","t":"organising their taxes."},{"id":"b","t":"working at unsociable hours."},{"id":"c","t":"maintaining lasting relationships."},{"id":"d","t":"finding a reliable internet connection."}]},{"n":5,"level":"B2","q":"Why have protests taken place in some cities?","opts":[{"id":"a","t":"Nomads refuse to pay local taxes."},{"id":"b","t":"Co-working spaces are replacing traditional cafés."},{"id":"c","t":"Local people can no longer afford housing."},{"id":"d","t":"Campaigners want stricter visa requirements."}]},{"n":6,"level":"B2+","q":"What do we learn about employers in the fifth paragraph?","opts":[{"id":"a","t":"They mostly support flexible working."},{"id":"b","t":"They have opposing views about remote work."},{"id":"c","t":"They have solved the legal problems involved."},{"id":"d","t":"They use remote work to reduce salaries."}]},{"n":7,"level":"C1","q":"In the final paragraph, the writer concludes that digital nomadism","opts":[{"id":"a","t":"will soon be adopted by most professionals."},{"id":"b","t":"is losing popularity among younger workers."},{"id":"c","t":"is becoming a more serious, established way of living."},{"id":"d","t":"has failed to solve its original problems."}]}]},{"id":4,"section":"Use of English","format":"gap","shuffle":false,"marks":10,"title":"Task 4","instruction":"Complete the text with the correct form of the words in CAPITALS.","passageTitle":"The Quiet Champion","text":"Last summer a young runner from a small industrial town gave a truly {{1}} performance at the national championships. Growing up, she had trained on streets where {{2}} from the local factories often made breathing difficult. To combine serious training with school, she had to become far more {{3}} than any of her classmates. Her coach insisted that a balanced diet and enough sleep were the foundation of a {{4}} lifestyle. At sixteen she made the most difficult {{5}} of her life and moved abroad to join a professional team. Her first season there was quite {{6}}: three medals and a new personal best. Not everything went smoothly, however, and after one controversial race her main rival gave an explanation so {{7}} that nobody in the press room could follow it. Later, new video evidence cast serious doubt on the {{8}} of his account. The behaviour of the officials who had ignored her complaint was condemned as deeply {{9}} by the national federation. Despite the medals and the headlines, she has remained a modest and {{10}} young woman who still trains on the streets where she started.","items":[{"n":1,"level":"B2","hint":"IMPRESS"},{"n":2,"level":"B2","hint":"POLLUTE"},{"n":3,"level":"B2","hint":"ORGANISE"},{"n":4,"level":"B2","hint":"HEALTH"},{"n":5,"level":"B2","hint":"DECIDE"},{"n":6,"level":"B2","hint":"FORGET"},{"n":7,"level":"B2+","hint":"COHERE"},{"n":8,"level":"B2+","hint":"RELY"},{"n":9,"level":"B2+","hint":"PROFESSION"},{"n":10,"level":"C1","hint":"ASSUME"}]},{"id":5,"section":"Use of English","format":"mcq-inline","shuffle":true,"marks":10,"title":"Task 5","instruction":"Read the text and fill in the gaps with the correct option (1, 2, 3, or 4).","passageTitle":"A Change of Direction","text":"When Marcus lost his job at the bank, his friends expected him to give up on his ambitions. Instead, he decided it was a {{1}} opportunity to follow a dream he had been postponing for years: opening a small bakery. He had no experience of running a business, but he refused to let that {{2}} him off. He {{3}} up for an evening course in management, borrowed money {{4}} his brother, and spent six months learning everything he could about bread. {{5}} first, the work was exhausting and the profits were tiny. There were moments when Marcus wondered whether he had {{6}} off more than he could chew. Still, he kept going, and word of his sourdough gradually {{7}} around the neighbourhood. Within a year, customers were queuing outside the door every Saturday morning, and a local newspaper described the bakery as one of the city's hidden {{8}}. Marcus has never {{9}} his decision. ‘Losing my job felt like a disaster at the time,’ he {{10}}, ‘but looking back, it was the best thing that ever happened to me.’","items":[{"n":1,"level":"B2","opts":[{"id":"1","t":"gold"},{"id":"2","t":"shiny"},{"id":"3","t":"golden"},{"id":"4","t":"valuable"}]},{"n":2,"level":"B2","opts":[{"id":"1","t":"take"},{"id":"2","t":"put"},{"id":"3","t":"set"},{"id":"4","t":"turn"}]},{"n":3,"level":"B2","opts":[{"id":"1","t":"entered"},{"id":"2","t":"noted"},{"id":"3","t":"wrote"},{"id":"4","t":"signed"}]},{"n":4,"level":"B1+","opts":[{"id":"1","t":"from"},{"id":"2","t":"of"},{"id":"3","t":"by"},{"id":"4","t":"to"}]},{"n":5,"level":"B1+","opts":[{"id":"1","t":"In"},{"id":"2","t":"On"},{"id":"3","t":"At"},{"id":"4","t":"By"}]},{"n":6,"level":"C1","opts":[{"id":"1","t":"eaten"},{"id":"2","t":"bitten"},{"id":"3","t":"cut"},{"id":"4","t":"torn"}]},{"n":7,"level":"B2","opts":[{"id":"1","t":"expanded"},{"id":"2","t":"stretched"},{"id":"3","t":"spread"},{"id":"4","t":"extended"}]},{"n":8,"level":"B2+","opts":[{"id":"1","t":"jewels"},{"id":"2","t":"stones"},{"id":"3","t":"diamonds"},{"id":"4","t":"gems"}]},{"n":9,"level":"B2","opts":[{"id":"1","t":"regretted"},{"id":"2","t":"apologised"},{"id":"3","t":"complained"},{"id":"4","t":"blamed"}]},{"n":10,"level":"B2+","opts":[{"id":"1","t":"denies"},{"id":"2","t":"refuses"},{"id":"3","t":"admits"},{"id":"4","t":"ignores"}]}]},{"id":6,"section":"Use of English","format":"gap","shuffle":false,"marks":10,"title":"Task 6","instruction":"Complete the text using the correct form of the verbs in brackets.","passageTitle":"An Unexpected Career","text":"By the time Elena {{1}} from music school, she {{2}} in more than twenty countries. Journalists often ask her how it all began. ‘I {{3}} alone one afternoon when a famous conductor happened to walk past our open window,’ she remembers. ‘He knocked on the door and told my parents that their daughter {{4}} a remarkable talent.’ Since that day, her life {{5}} beyond recognition. For the past six months she {{6}} for a world tour, which begins next week. By the end of it, she {{7}} over eighty concerts in a single year — more than many musicians manage in a decade. Elena admits that the schedule is punishing. ‘This time tomorrow, I {{8}} to Tokyo instead of relaxing at home,’ she laughs. Interestingly, music was not her first choice: until the conductor’s visit, she {{9}} to train as a doctor. And what keeps her going now? ‘The thought that by the time the tour finishes, I {{10}} non-stop for almost a year — and will finally deserve a holiday!’","items":[{"n":1,"level":"B2","hint":"graduate"},{"n":2,"level":"B2","hint":"already / perform"},{"n":3,"level":"B2","hint":"practise"},{"n":4,"level":"B2","hint":"have"},{"n":5,"level":"B2","hint":"change"},{"n":6,"level":"B2+","hint":"prepare"},{"n":7,"level":"B2+","hint":"give"},{"n":8,"level":"B2+","hint":"fly"},{"n":9,"level":"B2+","hint":"plan"},{"n":10,"level":"C1","hint":"travel"}]},{"id":7,"section":"Use of English","format":"gap-sentence","shuffle":false,"marks":10,"title":"Task 7","instruction":"Complete the sentences with the correct form of the words in brackets.","items":[{"n":1,"level":"B2","hint":"steal","s":"He denied {{gap}} the documents from the office."},{"n":2,"level":"B2","hint":"not / hear","s":"When I waved at him, he simply pretended {{gap}} me."},{"n":3,"level":"B2","hint":"take","s":"If she {{gap}} my advice, she wouldn't have lost all that money."},{"n":4,"level":"B2+","hint":"not / miss","s":"If I {{gap}} the train this morning, I would be in Paris by now."},{"n":5,"level":"B2","hint":"build","s":"The new bridge {{gap}} at the moment, so expect delays on the motorway."},{"n":6,"level":"B2+","hint":"sell","s":"By the time we arrived at the box office, all the tickets {{gap}}."},{"n":7,"level":"B2","hint":"difficult","s":"The exam turned out to be far {{gap}} than anyone had expected."},{"n":8,"level":"B2+","hint":"should / not / tell","s":"{{gap}} her the secret — now the whole office knows!","prefix":"You "},{"n":9,"level":"B2","hint":"finish","s":"Maria said that she {{gap}} the report the following day."},{"n":10,"level":"B2+","hint":"not / know","s":"{{gap}} what to say, he simply remained silent."}]},{"id":8,"section":"Use of English","format":"kwt","shuffle":false,"marks":10,"title":"Task 8","instruction":"Complete the second sentence so that it has a similar meaning to the first one. Do not change the word given. Use two to five words, including the word given.","wordRange":[2,5],"items":[{"n":1,"level":"B2","kw":"BEING","lead":"They are repairing my car at the moment.","before":"My car","after":"at the moment."},{"n":2,"level":"B2","kw":"WISH","lead":"I regret not studying harder at school.","before":"I","after":"harder at school."},{"n":3,"level":"B2+","kw":"HAD","lead":"If I had known about the meeting, I would have attended.","before":"","after":"about the meeting, I would have attended."},{"n":4,"level":"B2","kw":"GOT","lead":"A mechanic repaired Sarah's car yesterday.","before":"Sarah","after":"yesterday."},{"n":5,"level":"B2","kw":"NOT","lead":"'Don't touch the paintings,' the guide said to us.","before":"The guide","after":"the paintings."},{"n":6,"level":"B2","kw":"MOST","lead":"I have never seen such a beautiful sunset.","before":"It was","after":"I have ever seen."},{"n":7,"level":"B2+","kw":"HAVE","lead":"I'm sure Tom didn't take your keys.","before":"Tom","after":"your keys."},{"n":8,"level":"B2","kw":"RATHER","lead":"I'd prefer to stay in tonight rather than go out.","before":"I","after":"tonight than go out."},{"n":9,"level":"B2+","kw":"THE","lead":"If you practise more, you will become more confident.","before":"","after":", the more confident you will become."},{"n":10,"level":"B2","kw":"SEEN","lead":"We last saw each other a long time ago.","before":"We","after":"for a long time."}]},{"id":9,"section":"Writing","format":"writing","shuffle":false,"marks":0,"title":"Task 9","instruction":"Write a short paragraph answering one of the following questions. Write about 100–150 words.","wordRange":[100,150],"prompts":[{"id":"1","t":"What kind of things do you and your friends like to do together?"},{"id":"2","t":"What activities do you like doing in your free time?"}]}];
+
+/* ---------------------------------------------------------------------
+   4. КЛЮЧ — зашифрован (XOR + base64)
+   Это ОБФУСКАЦИЯ, а не защита: код страницы на GitHub Pages открыт,
+   и тот, кто вызовет ref() из консоли браузера, увидит весь ключ.
+   Цель — чтобы ответы не читались в «Просмотре кода страницы».
+   ------------------------------------------------------------------ */
+var REF_BLOB = 'C04FQQkWD0VjF0lNWRQAGAdHDUAWURFXVlYqDwhNUxRHFkdWUlZPQVhPF1YiD09DEAIYAB5HG04OQVFPUFhjGBBVSRRRGF9HEk5JTxFbD046D1lNCBRbGBhJUlsWWUhPRlZ7D1BNT0sWGFdHShcWIhFXVlYqDwhNARRHFkcnUlZPQVhPF1Z0D09DEHUYAB5HG04OQQJPUFhjaRBVSRRRGF9HR05JTxEoD046D1lNCBQIGBhJUioWWUhPRlZ7DwRNT0sWGFZHShcWUhFXVlYqDwhNUBRHFkdXUlZPQVhPF1YjD09DEAUYAB5HG04OQVJPUFhjGRBVSRRRGF9HE05JTxFYD046D1lNCBRZGBhJUloWWUhPRlZ7D1BNTxoYDUdfC05fQQlPTlY8UB5NBhQAQUdUUlZPQVJPFy9jRF8fQFNJSQwTFU5pHh9PH1Z7VhAOEAxhGBUKHABBF1oCQ1YcUB5NARQAQUcEUlZvQVwfShUvREEKVhQWGAoXFw1aCkkISVYcUB5NBhQAQUcEUlZvQVsITBg1RUtNb0sWGFBHShcWAhFXdlYlSFEGQV9VVEc4DUAWVRFXVlYgDwg0EENUXAoXFwlAF1IPQRFjcE9DEAEYAB5HEU4OOBEEQxcuRVcdV1hOGDgYXE4MQQkWDxVjF2lNQFNWUwQHGQBdF0pPcAltDwtNCE0YW0dfK05BDUMfQhIkXkEGXVhbVkc4DUAWUgNPFw9jTBBVaRRPVAQWAxlZCl0KDyk8UB5NBxQAQUdUUlZPQVhPF1ZyD09DEAQYAB5HG04OQQFPUFhjHhBVSRRRGF9HRE5JTxFZD046D1lNCBQLGBhJUlkWWUhPRlZ7DwFNTxoYDEdfC05fQQlPH1Y8ARBYEAxBGA5HSk4HQU5BD0xjF0lNWRQAGFFHDUAWWhFXVlYqDwhNAxRHFkdUQE4OGBEGD05jHhASTxoYDEdfC04FQQkWDxVjF2lNVURbXhAEBAlQQW4QAVZzDwgUEFcYAD5HGA1QQ1IBXxEgSUtPQlNIXAoXHQlQQR9PChBhTF4dV1deQ0UVFR5SDEEASBBjcE9DEAUYAB5HEU4OOBEaTAdhXUAOUUJTSQwLF04YQUQMXlQxX1MMRl9ZUwsCUjFJTxFZD046D1NNCG0YUgQBUjFJTxFYD046D1NNCG0YUgQWUA9cAl0KSBBjARBIQRZZUgQLFwlQQW4QAVZ3DwgUEFcYAD5HGA1HQ1EISBphXUAKQldIUwsCUkAWREBNTxEkQxIfQFNKWxcMHgsWPk5BD0NjF0lNUxQAYUcSGQBYQ1sMWxFhSlsZV1gYFkdCHAAUC1IbSFQmREQKXBRnR0lHSE4OGBEMD04aD0UGXloaWABFFgBNCl0KD1hjCl4DElRfGgMJCQVaBBEwUFhjFBBVSRRbGF8+UgRVBxMPSBEvDUIDU1hUUwsCUkAWRFdNTxEkQxIfXldUVAwLF05pHh9PHERjF0lNUxQAYUcSGQBYQ1sMWxFhT1cKXBZOSAQTFQBYCl0KD1hjWlsDXhZSWxMAUA5RBl1NWQYgW1cDW1hdGElHVwBYQ1sMWxFhT1cKXBZOSAQTFQBYCl0KD1hjCl4DEl5bTABFEglRDRMZXxU3SF4GXFEYZxgYXE4DQQkWD0VjF0lNUxQAYUcWBAlVD1oDSlZtD1oORF9UXUUWBANYBl1PcAltDwBNCE0YW0dfK05aDEdNWRthRVcOQBRnR0lHQ04OGBEMD04aD1oOVhZOWw4AHk5pHh9PGVZ7VhAOEAxhGA0EFAITFxMARAcySFZNHhRSWwFFHgNAQ14EXgckSRAyTxoYD0dfC05VQQk2Dx0yDVAKW1hdGgcQGQBAQW4QAVZ3DwgUEFcYAD5HGA1QQ1EISBphXl0DVhRnR0lHR04OGBEMD04aD18AQFMaXgwDFgVXFl8ZDyk8ARBXEAxBGARHSjcWEFsCWBglQxUbEl5bTABFBANYBxFBDwcpQkcDVhZUVRFFGA1CBhMZQhglD28SHhQDGF8eUg0WWWhPWhs0QVZPVF9UUxYNUjFJTxFcHVZ7VhAOEAxhGAsKBExfDVwaRBomD28STxoYAkdfC04FQQkWDxVjF2lNW0UaWAAMHgsUEVYdTB0zSFZNb0sWGFdHShcWAhFXdlY2REEHEn8aUgQBUB9AFlcESBBjARAYW0VSGixCFExHF0YJRBElD28SHhQJGF8eUg0WWWhPRRUlDVtPWVhVTQtHLREYQQdPFw9jTBBVaRRdVRFFGAlGQ1AMX1QzSEIOW0RfXkc4DUAWVhFXVlYgDwg0EEJVVgFFBR8UDVwZDQAuDUYAR1VSGDgYXE4CQQkWDxVjF2lNRl5fGggKAxgUAVYMWAAoS0cDEkVPVBYABE5pHh9PGlZ7VhAOEAxhGAYEHktAQ1sMWxFhWVMEV1gYFkcGEQJaDEdNRRU3SBIbU11fVEdJUg9bFl8JQ1M1DVoORFMaTgQOFQIWTxEOQgEtSRIBXUIaUgQTFUxAAlgIQ1YcUB5NChQAQUcEUlZvQUQCWBglDUAORl5fSEUWBA1NQ1oDD1hjClZPQFdOUgAXUB9AAkpNRBpjcE9DEA8YAB5HEU4OOBEZRRFhQF0dVxZDVRBFAB5VAEcEXhFjARAbWlMaVwoXFUxNDEZNXQYgTkYGUVMYZxhJUl0EQQkWDxVjF2lNWldMXwtCBExHBlYDDREgTlpPXUJSXxdHXE5cAkUIDRouWRIcV1NUGgAEEwQUDEcFSAZjcE8SHhQIQkdfUlgWHg==';
+
+var _K = null;
+function ref(){
+  if (_K) return _K;
+  var k = 'pl4c3m' + '-tA-' + '2o26' + '::ee';
+  var raw = atob(REF_BLOB), p = '';
+  for (var i=0;i<raw.length;i++){
+    var c = raw.charCodeAt(i) ^ k.charCodeAt(i % k.length);
+    p += '%' + ('0'+c.toString(16)).slice(-2);
+  }
+  _K = JSON.parse(decodeURIComponent(p));
+  return _K;
+}
+
+/* ---------------------------------------------------------------------
+   5. ПРОВЕРКА ОТВЕТОВ
+   norm() приводит ввод к единому виду до сравнения: типографские
+   апострофы и кавычки → обычные, тире → дефис, нижний регистр,
+   схлопывание пробелов, снятие концевой пунктуации.
+   ------------------------------------------------------------------ */
+function norm(s){
+  return String(s == null ? '' : s)
+    .replace(/[\u2018\u2019\u02BC\u00B4\u0060]/g, "'")
+    .replace(/[\u201C\u201D\u00AB\u00BB]/g, '"')
+    .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, '-')
+    .replace(/\u00A0/g, ' ')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[.,;:!?]+$/, '');
+}
+function matches(val, list){
+  var v = norm(val);
+  if (!v) return false;
+  for (var i=0;i<list.length;i++) if (norm(list[i]) === v) return true;
+  return false;
+}
+function wordCount(s){
+  s = String(s||'').trim();
+  return s ? s.split(/\s+/).length : 0;
+}
+
+/* ---------------------------------------------------------------------
+   6. СОСТОЯНИЕ И localStorage
+   Всё обёрнуто в try/catch: в режиме инкогнито хранилище может быть
+   недоступно — тест тогда просто работает без восстановления.
+   ------------------------------------------------------------------ */
+var S = {
+  student:{first:'',last:'',group:''},
+  startedAt:null, taskIdx:0,
+  ans:{},       // "4.7" → строка ввода или id варианта
+  orders:{},    // "1.3" → порядок вариантов после перемешивания
+  plays:0, tabAway:0,
+  wPrompt:null, wText:''
+};
+
+function lsGet(k){ try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+function lsDel(k){ try { localStorage.removeItem(k); } catch(e){} }
+function save(){ lsSet(CONFIG.STORE_PROG, S); }
+
+/* Сброс для учителя: открыть страницу с ?teacher=reset */
+(function teacherReset(){
+  try {
+    var q = new URLSearchParams(location.search);
+    if (q.get(CONFIG.RESET_PARAM) === CONFIG.RESET_VALUE){
+      lsDel(CONFIG.STORE_PROG); lsDel(CONFIG.STORE_DONE);
+      history.replaceState(null, '', location.pathname);
+    }
+  } catch(e){}
+})();
+
+/* ---------------------------------------------------------------------
+   7. УТИЛИТЫ РАЗМЕТКИ
+   ------------------------------------------------------------------ */
+function esc(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function el(id){ return document.getElementById(id); }
+function app(html){ el('app').innerHTML = html; }
+function letter(i){ return String.fromCharCode(65+i); }
+
+/* Детерминированное перемешивание с сохранением порядка в прогрессе,
+   чтобы перезагрузка не путала выбранный вариант с другим. */
+function orderFor(tid, n, opts){
+  var key = tid + '.' + n;
+  if (S.orders[key]) return S.orders[key];
+  var ids = opts.map(function(o){ return o.id; });
+  for (var i=ids.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t = ids[i]; ids[i] = ids[j]; ids[j] = t;
+  }
+  S.orders[key] = ids;
+  return ids;
+}
+function optsInOrder(task, it){
+  if (!task.shuffle) return it.opts;
+  var ord = orderFor(task.id, it.n, it.opts);
+  return ord.map(function(id){
+    for (var i=0;i<it.opts.length;i++) if (it.opts[i].id === id) return it.opts[i];
+  }).filter(Boolean);
+}
+
+/* ---------------------------------------------------------------------
+   8. ТИТУЛЬНЫЙ ЭКРАН
+   ------------------------------------------------------------------ */
+function screenStart(){
+  var rules = T.rules.map(function(r){ return '<li>'+r+'</li>'; }).join('');
+  app(
+  '<div class="wrap" style="padding-top:34px">'+
+    '<h1>'+esc(T.title)+'</h1>'+
+    '<p class="muted" style="margin-bottom:22px">'+esc(T.sub)+'</p>'+
+    '<div class="card">'+
+      '<ul class="rules">'+rules+'</ul>'+
+    '</div>'+
+    '<div class="card">'+
+      '<div class="field"><label for="f-first">'+esc(T.first)+'</label>'+
+        '<input id="f-first" type="text" autocomplete="off" spellcheck="false" maxlength="40"></div>'+
+      '<div class="field"><label for="f-last">'+esc(T.last)+'</label>'+
+        '<input id="f-last" type="text" autocomplete="off" spellcheck="false" maxlength="40"></div>'+
+      '<div class="field"><label for="f-group">'+esc(T.group)+'</label>'+
+        '<input id="f-group" type="text" autocomplete="off" spellcheck="false" maxlength="20"></div>'+
+      '<div class="notice">'+esc(T.notice)+'</div>'+
+      '<button class="btn" id="go">'+esc(T.start)+'</button>'+
+      '<p class="err hidden" id="start-err">'+esc(T.fillAll)+'</p>'+
+    '</div>'+
+  '</div>');
+
+  el('go').onclick = function(){
+    var f = el('f-first').value.trim(), l = el('f-last').value.trim(), g = el('f-group').value.trim();
+    if (!f || !l || !g){ el('start-err').classList.remove('hidden'); return; }
+    S.student = {first:f, last:l, group:g};
+    S.startedAt = Date.now();
+    S.taskIdx = 0;
+    save();
+    startTimer();
+    renderTask();
+  };
+}
+
+/* ---------------------------------------------------------------------
+   9. ТАЙМЕР — отсчёт от startedAt, поэтому перезагрузка его не обнуляет
+   ------------------------------------------------------------------ */
+var timerId = null, warned5 = false;
+function msLeft(){ return S.startedAt ? (CONFIG.MINUTES*60000 - (Date.now() - S.startedAt)) : CONFIG.MINUTES*60000; }
+function hhmmss(ms){
+  if (ms < 0) ms = 0;
+  var s = Math.floor(ms/1000), h = Math.floor(s/3600), m = Math.floor((s%3600)/60), x = s%60;
+  var p = function(v){ return (v<10?'0':'')+v; };
+  return (h>0 ? h+':'+p(m) : m) + ':' + p(x);
+}
+function startTimer(){
+  if (timerId) clearInterval(timerId);
+  tickTimer();
+  timerId = setInterval(tickTimer, 1000);
+}
+function tickTimer(){
+  var left = msLeft(), c = el('clock');
+  if (c){
+    c.textContent = T.timeLeft(hhmmss(left));
+    if (left <= 5*60000) c.classList.add('low');
+  }
+  if (left <= 5*60000 && !warned5){ warned5 = true; flash(T.fiveLeft); }
+  if (left <= 0){ clearInterval(timerId); timerId = null; submitAll(true); }
+}
+function flash(msg){
+  var f = el('flash');
+  if (!f) return;
+  f.textContent = msg;
+  f.classList.remove('hidden');
+}
+
+/* Уход со вкладки — предупреждаем, не блокируем; счётчик уходит учителю */
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden && S.startedAt && !lsGet(CONFIG.STORE_DONE)){
+    S.tabAway++; save();
+  } else if (!document.hidden && S.tabAway > 0){
+    flash(T.tabAway);
+  }
+});
+
+/* ---------------------------------------------------------------------
+   10. ОТРИСОВКА ЗАДАНИЯ
+   ------------------------------------------------------------------ */
+function renderTask(){
+  var task = DATA[S.taskIdx], last = (S.taskIdx === DATA.length-1);
+  var body = '';
+
+  if (task.format === 'mcq' && task.audio) body = viewListening(task);
+  else if (task.format === 'mcq')          body = viewMcq(task);
+  else if (task.format === 'bank')         body = viewBank(task);
+  else if (task.format === 'mcq-inline')   body = viewMcqInline(task);
+  else if (task.format === 'gap')          body = viewGap(task);
+  else if (task.format === 'gap-sentence') body = viewGapSentence(task);
+  else if (task.format === 'kwt')          body = viewKwt(task);
+  else if (task.format === 'writing')      body = viewWriting(task);
+
+  app(
+  '<div class="topbar"><div class="wrap">'+
+    '<div class="crumb">'+T.taskOf(S.taskIdx+1, DATA.length, esc(task.section))+'</div>'+
+    '<div class="clock" id="clock">'+esc(T.timeLeft(hhmmss(msLeft())))+'</div>'+
+  '</div><div class="wrap"><div class="bar"><i style="width:'+
+    Math.round((S.taskIdx)/DATA.length*100)+'%"></i></div></div></div>'+
+  '<div class="wrap" style="padding-top:20px">'+
+    '<div class="flash hidden" id="flash"></div>'+
+    '<h2>'+esc(task.title)+'</h2>'+
+    '<p class="muted" style="margin-bottom:14px">'+esc(task.section)+
+      (task.marks ? ' · '+task.marks+' mark'+(task.marks===1?'':'s') : '')+'</p>'+
+    '<div class="instr">'+esc(task.instruction)+'</div>'+
+    body +
+  '</div>'+
+  '<div class="footbar"><div class="wrap">'+
+    '<button class="btn" id="nav">'+esc(last ? T.finish : T.next)+'</button>'+
+  '</div></div>');
+
+  wireTask(task);
+  el('nav').onclick = function(){ last ? trySubmit() : tryNext(); };
+  startTimer();
+  window.scrollTo(0,0);
+}
+
+/* ---- Task 1: плеер + вопросы (текст вопросов НИЖЕ плеера) ---------- */
+function viewListening(task){
+  var qs = task.items.map(function(it){
+    return '<div class="q">'+
+      '<div class="chip">'+esc(T.extract(it.extract))+'</div>'+
+      '<div class="q-head"><span class="q-num">'+it.n+'</span>'+
+        '<span class="q-text">'+esc(it.q)+'</span></div>'+
+      optionButtons(task, it)+
+    '</div>';
+  }).join('');
+  var left = CONFIG.AUDIO_PLAYS - S.plays, none = left <= 0;
+  return '<div class="player">'+
+    '<div class="plays'+(none?' none':'')+'" id="plays">'+
+      esc(none ? T.noPlays : T.playsLeft(left, CONFIG.AUDIO_PLAYS))+'</div>'+
+    '<button class="btn play-btn" id="play"'+(none?' disabled':'')+'>'+esc(T.play)+'</button>'+
+    '<div class="pbar"><i id="pfill"></i></div>'+
+    '<div class="ptime" id="ptime">0:00 / 0:00</div>'+
+    '<p class="tiny" style="margin:12px 0 0">'+esc(T.noPause)+'</p>'+
+    (none ? '<div class="locked">'+esc(T.noPlays)+'</div>' : '')+
+  '</div>'+ qs;
+}
+
+function optionButtons(task, it){
+  var key = task.id+'.'+it.n, cur = S.ans[key];
+  var opts = optsInOrder(task, it);
+  return '<div class="opts" data-key="'+key+'">'+ opts.map(function(o,i){
+    return '<button class="opt" type="button" data-id="'+esc(o.id)+'" '+
+      'aria-pressed="'+(cur===o.id?'true':'false')+'">'+
+      '<span class="mark">'+letter(i)+'</span><span>'+esc(o.t)+'</span></button>';
+  }).join('') + '</div>';
+}
+
+/* ---- Task 3: текст + вопросы MCQ ---------------------------------- */
+function viewMcq(task){
+  var ps = task.paragraphs.map(function(p){ return '<p>'+esc(p.text)+'</p>'; }).join('');
+  var qs = task.items.map(function(it){
+    return '<div class="q"><div class="q-head"><span class="q-num">'+it.n+'</span>'+
+      '<span class="q-text">'+esc(it.q)+'</span></div>'+ optionButtons(task, it) +'</div>';
+  }).join('');
+  return '<div class="passage"><h4>'+esc(task.passageTitle)+'</h4>'+ps+'</div>'+qs;
+}
+
+/* ---- Task 2: банк фраз ------------------------------------------- */
+function viewBank(task){
+  var ps = task.paragraphs.map(function(p){
+    var html = esc(p.text).replace(/\{\{([A-F])\}\}/, function(m, g){
+      var v = S.ans[task.id+'.'+g];
+      var ph = v ? task.bank.filter(function(b){ return b.id===v; })[0] : null;
+      return '<button class="gap-btn'+(ph?' set':'')+'" type="button" data-gap="'+g+'">'+
+             (ph ? esc(ph.t) : g)+'</button>';
+    });
+    return '<p><span class="para-tag">'+p.label+'</span>'+html+'</p>';
+  }).join('');
+  var used = task.items.map(function(i){ return S.ans[task.id+'.'+i.n]; }).filter(Boolean);
+  var bank = task.bank.map(function(b){
+    var isUsed = used.indexOf(b.id) >= 0;
+    return '<button class="bank-item'+(isUsed?' used':'')+'" type="button" data-ph="'+esc(b.id)+'">'+
+      '<span class="mark">'+esc(b.id)+'</span><span>'+esc(b.t)+'</span></button>';
+  }).join('');
+  return '<div class="passage"><h4>'+esc(task.passageTitle)+'</h4>'+ps+'</div>'+
+    '<p class="tiny" id="bank-hint" style="margin:0 0 10px">'+esc(T.bankHint)+'</p>'+
+    '<h3 style="margin-top:0">'+esc(T.phrases)+'</h3>'+
+    '<div class="bank">'+bank+'</div>';
+}
+
+/* ---- Task 5: текст с нумерованными пропусками + список вариантов -- */
+function viewMcqInline(task){
+  var txt = esc(task.text).replace(/\{\{(\d+)\}\}/g, function(m,n){
+    return '<span class="gnum">'+n+'</span>';
+  });
+  var qs = task.items.map(function(it){
+    return '<div class="q"><div class="q-head"><span class="q-num">'+it.n+'</span></div>'+
+      optionButtons(task, it)+'</div>';
+  }).join('');
+  return '<div class="passage"><h4>'+esc(task.passageTitle)+'</h4><p>'+txt+'</p></div>'+qs;
+}
+
+/* ---- Task 4 / 6: текст со встроенными полями ввода ---------------- */
+function viewGap(task){
+  var byN = {};
+  task.items.forEach(function(it){ byN[it.n] = it; });
+  var txt = esc(task.text).replace(/\{\{(\d+)\}\}/g, function(m,n){
+    var it = byN[n], key = task.id+'.'+n, v = S.ans[key] || '';
+    var cue = it.hint ? '<span class="cue">'+esc(it.hint)+'</span>' : '';
+    return '<span class="gapunit"><span class="gnum">'+n+'</span>'+
+      '<input class="inl'+(v?' filled':'')+'" type="text" data-key="'+key+'" '+
+      'value="'+esc(v)+'" spellcheck="false" autocapitalize="off" '+
+      'autocorrect="off" autocomplete="off" aria-label="Gap '+n+'">'+cue+'</span>';
+  });
+  return '<div class="passage"><h4>'+esc(task.passageTitle)+'</h4><p class="sent">'+txt+'</p></div>';
+}
+
+/* ---- Task 7: отдельные предложения ------------------------------- */
+function viewGapSentence(task){
+  return task.items.map(function(it){
+    var key = task.id+'.'+it.n, v = S.ans[key] || '';
+    var input = '<span class="gapunit"><input class="inl'+(v?' filled':'')+'" type="text" '+
+      'data-key="'+key+'" value="'+esc(v)+'" spellcheck="false" autocapitalize="off" '+
+      'autocorrect="off" autocomplete="off" aria-label="Item '+it.n+'">'+
+      '<span class="cue">'+esc(it.hint)+'</span></span>';
+    var s = esc(it.s).replace('{{gap}}', input);
+    return '<div class="q"><div class="q-head"><span class="q-num">'+it.n+'</span>'+
+      '<span class="q-text sent">'+esc(it.prefix||'')+s+'</span></div></div>';
+  }).join('');
+}
+
+/* ---- Task 8: key word transformations ---------------------------- */
+function viewKwt(task){
+  return task.items.map(function(it){
+    var key = task.id+'.'+it.n, v = S.ans[key] || '';
+    var n = wordCount(v);
+    var okRange = n >= task.wordRange[0] && n <= task.wordRange[1];
+    return '<div class="q">'+
+      '<div class="q-head"><span class="q-num">'+it.n+'</span>'+
+        '<span class="q-text"><span class="lead" style="display:block">'+esc(it.lead)+'</span>'+
+        '<span class="kw">'+esc(it.kw)+'</span><br>'+
+        '<span class="sent">'+esc(it.before)+' '+
+        '<input class="inl" style="width:100%;max-width:22em;text-align:left" type="text" '+
+        'data-key="'+key+'" data-kwt="1" '+
+        'value="'+esc(v)+'" spellcheck="false" autocapitalize="off" autocorrect="off" '+
+        'autocomplete="off" aria-label="Item '+it.n+'"> '+esc(it.after)+'</span>'+
+        '<span class="count'+(n===0?'':(okRange?' ok':' bad'))+'" data-count="'+key+'">'+
+        esc(n===0 ? '' : (okRange ? T.words(n) : T.wordsKwt(n)))+'</span>'+
+      '</span></div></div>';
+  }).join('');
+}
+
+/* ---- Task 9: сочинение ------------------------------------------- */
+function viewWriting(task){
+  var n = wordCount(S.wText);
+  var ok = n >= task.wordRange[0] && n <= task.wordRange[1];
+  var prompts = task.prompts.map(function(p){
+    return '<button class="opt" type="button" data-prompt="'+esc(p.id)+'" '+
+      'aria-pressed="'+(S.wPrompt===p.id?'true':'false')+'">'+
+      '<span class="mark">'+esc(p.id)+'</span><span>'+esc(p.t)+'</span></button>';
+  }).join('');
+  return '<h3 style="margin-top:0">'+esc(T.chooseQ)+'</h3>'+
+    '<div class="opts" style="margin-bottom:18px">'+prompts+'</div>'+
+    '<textarea id="wtext" spellcheck="false" autocapitalize="sentences" '+
+      'autocorrect="off" autocomplete="off" aria-label="Your paragraph">'+esc(S.wText)+'</textarea>'+
+    '<p class="count'+(n===0?'':(ok?' ok':' bad'))+'" id="wcount">'+
+      esc(n===0 ? T.wordsW(0) : (ok ? T.words(n) : T.wordsW(n)))+'</p>';
+}
+
+/* ---------------------------------------------------------------------
+   11. ОБРАБОТЧИКИ
+   ------------------------------------------------------------------ */
+var activeGap = null;
+
+function wireTask(task){
+  /* варианты-«таблетки» */
+  Array.prototype.forEach.call(document.querySelectorAll('.opts[data-key] .opt'), function(b){
+    b.onclick = function(){
+      var box = b.parentNode, key = box.getAttribute('data-key');
+      Array.prototype.forEach.call(box.querySelectorAll('.opt'), function(x){
+        x.setAttribute('aria-pressed','false');
+      });
+      b.setAttribute('aria-pressed','true');
+      S.ans[key] = b.getAttribute('data-id');
+      save();
+    };
+  });
+
+  /* текстовые поля */
+  Array.prototype.forEach.call(document.querySelectorAll('input.inl[data-key]'), function(inp){
+    inp.oninput = function(){
+      var key = inp.getAttribute('data-key');
+      S.ans[key] = inp.value;
+      inp.classList.toggle('filled', !!inp.value.trim());
+      if (inp.getAttribute('data-kwt')){
+        var c = document.querySelector('[data-count="'+key+'"]');
+        var n = wordCount(inp.value);
+        var ok = n >= task.wordRange[0] && n <= task.wordRange[1];
+        c.className = 'count' + (n===0 ? '' : (ok ? ' ok' : ' bad'));
+        c.textContent = n===0 ? '' : (ok ? T.words(n) : T.wordsKwt(n));
+      }
+      save();
+    };
+  });
+
+  /* Task 2: сначала пропуск, потом фраза */
+  Array.prototype.forEach.call(document.querySelectorAll('.gap-btn'), function(g){
+    g.onclick = function(){
+      var id = g.getAttribute('data-gap');
+      if (activeGap === id){                        // повторный тап — снять ответ
+        delete S.ans[task.id+'.'+id]; activeGap = null; save(); renderTask(); return;
+      }
+      activeGap = id;
+      Array.prototype.forEach.call(document.querySelectorAll('.gap-btn'), function(x){
+        x.classList.toggle('active', x === g);
+      });
+    };
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.bank-item'), function(b){
+    b.onclick = function(){
+      if (b.classList.contains('used')) return;
+      if (!activeGap){ el('bank-hint').classList.add('err'); return; }
+      S.ans[task.id+'.'+activeGap] = b.getAttribute('data-ph');
+      activeGap = null; save(); renderTask();
+    };
+  });
+
+  /* Task 9 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-prompt]'), function(b){
+    b.onclick = function(){
+      Array.prototype.forEach.call(document.querySelectorAll('[data-prompt]'), function(x){
+        x.setAttribute('aria-pressed','false');
+      });
+      b.setAttribute('aria-pressed','true');
+      S.wPrompt = b.getAttribute('data-prompt'); save();
+    };
+  });
+  var wt = el('wtext');
+  if (wt) wt.oninput = function(){
+    S.wText = wt.value;
+    var n = wordCount(S.wText), ok = n >= task.wordRange[0] && n <= task.wordRange[1];
+    var c = el('wcount');
+    c.className = 'count' + (n===0 ? '' : (ok ? ' ok' : ' bad'));
+    c.textContent = n===0 ? T.wordsW(0) : (ok ? T.words(n) : T.wordsW(n));
+    save();
+  };
+
+  if (task.audio) wireAudio();
+}
+
+/* ---- плеер: 2 прослушивания, пауза и перемотка заблокированы ------ */
+function wireAudio(){
+  var a = el('listening-audio'), btn = el('play'), fill = el('pfill'),
+      time = el('ptime'), badge = el('plays');
+  if (!a || !btn) return;
+  var playing = false, lastT = 0;
+
+  function fmt(t){
+    if (!isFinite(t)) t = 0;
+    var m = Math.floor(t/60), s = Math.floor(t%60);
+    return m + ':' + (s<10?'0':'') + s;
+  }
+  function paint(){
+    var d = a.duration || 0;
+    time.textContent = fmt(a.currentTime) + ' / ' + fmt(d);
+    fill.style.width = d ? (a.currentTime/d*100)+'%' : '0';
+  }
+  a.addEventListener('loadedmetadata', paint);
+  a.addEventListener('timeupdate', function(){ if (!a.seeking) lastT = a.currentTime; paint(); });
+
+  /* перемотка: любой прыжок больше секунды откатывается назад */
+  a.addEventListener('seeking', function(){
+    if (Math.abs(a.currentTime - lastT) > 1){ try { a.currentTime = lastT; } catch(e){} }
+  });
+  /* пауза: пока запись не доиграла, возобновляем воспроизведение */
+  a.addEventListener('pause', function(){
+    if (playing && !a.ended){ a.play().catch(function(){}); }
+  });
+
+  a.addEventListener('ended', function(){
+    playing = false;
+    S.plays++; save();                             // попытка засчитана ТОЛЬКО здесь
+    var left = CONFIG.AUDIO_PLAYS - S.plays;
+    if (left <= 0){
+      btn.disabled = true;
+      badge.className = 'plays none';
+      badge.textContent = T.noPlays;
+      var p = document.querySelector('.player');
+      if (p && !p.querySelector('.locked')){
+        var d = document.createElement('div');
+        d.className = 'locked'; d.textContent = T.noPlays; p.appendChild(d);
+      }
+    } else {
+      btn.disabled = false;
+      badge.className = 'plays';
+      badge.textContent = T.playsLeft(left, CONFIG.AUDIO_PLAYS);
+    }
+  });
+
+  btn.onclick = function(){
+    if (S.plays >= CONFIG.AUDIO_PLAYS) return;
+    playing = true; btn.disabled = true;
+    badge.className = 'plays playing';
+    badge.textContent = T.playing + '  ' + T.playsLeft(CONFIG.AUDIO_PLAYS - S.plays, CONFIG.AUDIO_PLAYS);
+    try { a.currentTime = 0; } catch(e){}
+    lastT = 0;
+    a.play().catch(function(){
+      playing = false; btn.disabled = false;
+      badge.className = 'plays';
+      badge.textContent = T.playsLeft(CONFIG.AUDIO_PLAYS - S.plays, CONFIG.AUDIO_PLAYS);
+    });
+  };
+}
+
+/* ---------------------------------------------------------------------
+   12. НАВИГАЦИЯ
+   ------------------------------------------------------------------ */
+function blanksIn(task){
+  if (task.format === 'writing') return (S.wPrompt && wordCount(S.wText) > 0) ? 0 : 1;
+  var n = 0;
+  task.items.forEach(function(it){
+    var v = S.ans[task.id+'.'+it.n];
+    if (v === undefined || String(v).trim() === '') n++;
+  });
+  return n;
+}
+function allBlanks(){
+  var n = 0;
+  DATA.forEach(function(t){ if (t.format !== 'writing') n += blanksIn(t); });
+  return n;
+}
+
+function modal(text, onYes){
+  var v = document.createElement('div');
+  v.className = 'veil';
+  v.innerHTML = '<div class="modal"><p>'+esc(text)+'</p><div class="btn-row">'+
+    '<button class="btn btn-ghost" id="m-no">'+esc(T.cancel)+'</button>'+
+    '<button class="btn" id="m-yes">'+esc(T.cont)+'</button></div></div>';
+  document.body.appendChild(v);
+  el('m-no').onclick = function(){ v.remove(); };
+  el('m-yes').onclick = function(){ v.remove(); onYes(); };
+}
+
+function tryNext(){
+  var task = DATA[S.taskIdx], b = blanksIn(task);
+  var go = function(){ S.taskIdx++; save(); renderTask(); };
+  modal(b > 0 ? T.blanks(b) + ' ' + T.noReturn : T.noReturn, go);
+}
+
+function trySubmit(){
+  var b = allBlanks();
+  if (b > 0){ flash(T.blockSubmit(b)); window.scrollTo(0,0); return; }
+  if (!S.wPrompt || wordCount(S.wText) === 0){ flash(T.blockWriting); window.scrollTo(0,0); return; }
+  modal(T.noReturn, function(){ submitAll(false); });
+}
+
+/* ---------------------------------------------------------------------
+   13. ПОДСЧЁТ РЕЗУЛЬТАТА
+   ------------------------------------------------------------------ */
+function correctText(task, it){
+  var K = ref()[task.id][it.n];
+  if (K.k !== undefined){
+    var pool = (task.format === 'bank') ? task.bank : it.opts;
+    for (var i=0;i<pool.length;i++) if (pool[i].id === K.k) return pool[i].t;
+    return K.k;
+  }
+  return K.a[0];
+}
+function givenText(task, it){
+  var v = S.ans[task.id+'.'+it.n];
+  if (v === undefined || String(v).trim() === '') return null;
+  var K = ref()[task.id][it.n];
+  if (K.k !== undefined){
+    var pool = (task.format === 'bank') ? task.bank : it.opts;
+    for (var i=0;i<pool.length;i++) if (pool[i].id === v) return pool[i].t;
+  }
+  return String(v).trim();
+}
+
+function score(){
+  var K = ref(), rows = [], byTask = [], bySection = {};
+  DATA.forEach(function(task){
+    if (task.format === 'writing') return;
+    var got = 0;
+    task.items.forEach(function(it){
+      var kk = K[task.id][it.n], v = S.ans[task.id+'.'+it.n];
+      var ok = (kk.k !== undefined) ? (v === kk.k) : matches(v, kk.a);
+      if (ok) got++;
+      rows.push({task:task, it:it, ok:ok, level:it.level});
+    });
+    byTask.push({id:task.id, section:task.section, got:got, of:task.marks});
+    bySection[task.section] = bySection[task.section] || {got:0, of:0};
+    bySection[task.section].got += got;
+    bySection[task.section].of  += task.marks;
+  });
+  var total = rows.filter(function(r){ return r.ok; }).length;
+  var pct = Math.round(total / CONFIG.TOTAL_MARKS * 100);
+  var grade = 2;
+  for (var i=0;i<GRADES.length;i++) if (pct >= GRADES[i].min){ grade = GRADES[i].g; break; }
+  var band = BANDS[BANDS.length-1].label;
+  for (var j=0;j<BANDS.length;j++) if (pct <= BANDS[j].max){ band = BANDS[j].label; break; }
+
+  /* ярусы */
+  var tier = {'B1+':[0,0],'B2':[0,0],'B2+':[0,0],'C1':[0,0]};
+  rows.forEach(function(r){ tier[r.level][1]++; if (r.ok) tier[r.level][0]++; });
+
+  /* Лестница. Ярус B1+ — всего 2 пункта, отдельный порог по нему
+     статистически бессмысленен (одна ошибка = 50 %), поэтому в гейте
+     он объединён с B2; в отчёте показывается своей строкой. */
+  var gate = [
+    ['B2',  [tier['B1+'][0]+tier['B2'][0], tier['B1+'][1]+tier['B2'][1]]],
+    ['B2+', tier['B2+']],
+    ['C1',  tier['C1']]
+  ];
+  var ladder = 'B1 or below';
+  for (var g=0; g<gate.length; g++){
+    var c = gate[g][1][0], n = gate[g][1][1];
+    if (n > 0 && c/n >= CONFIG.TIER_PASS) ladder = gate[g][0]; else break;
+  }
+
+  /* Итоговый уровень = НИЖНИЙ из двух измерений: ярусной лестницы и
+     процентной полосы. Каждое по отдельности врёт. Лестница может дать C1
+     при 74 % общего балла, если ярус C1 (всего 6 пунктов) случайно взят
+     целиком. Полоса не смотрит, КАКИЕ пункты взяты. Совпадение двух —
+     единственный защитимый вердикт; расхождение видно учителю в строке. */
+  var RANK = {'B1 or below':0, 'B1 / B1+':0, 'B2 approaching':1,
+              'B2':2, 'solid B2':2, 'B2+':3, 'C1':4};
+  var LABEL = ['B1 / B1+', 'B2 approaching', 'B2', 'B2+', 'C1'];
+  var finalLevel = LABEL[Math.min(RANK[ladder], RANK[band])];
+
+  return {rows:rows, byTask:byTask, bySection:bySection, total:total,
+          pct:pct, grade:grade, band:band, tier:tier, ladder:ladder, level:finalLevel};
+}
+
+/* ---------------------------------------------------------------------
+   14. ОТЧЁТ ДЛЯ УЧИТЕЛЯ — по-русски; ответы и ключи по-английски
+   ------------------------------------------------------------------ */
+function stamp(ms){
+  var d = new Date(ms), p = function(v){ return (v<10?'0':'')+v; };
+  return p(d.getDate())+'.'+p(d.getMonth()+1)+'.'+d.getFullYear()+', '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function buildReport(R, auto){
+  var mins = Math.max(0, Math.round((Date.now() - S.startedAt)/60000));
+  var time = 'НАЧАЛО '+stamp(S.startedAt)+' · СДАНО '+stamp(Date.now())+
+             ' · ВРЕМЯ '+mins+' мин из '+CONFIG.MINUTES+
+             (auto ? ' (автоотправка по таймеру)' : '')+
+             ' · уходов со вкладки: '+S.tabAway;
+
+  var byTask = R.byTask.map(function(t){ return '№'+t.id+': '+t.got+'/'+t.of; }).join(' · ');
+  var bySec = Object.keys(R.bySection).map(function(k){
+    return k+' '+R.bySection[k].got+'/'+R.bySection[k].of;
+  }).join(' · ');
+  var byTaskField = 'ПО ЗАДАНИЯМ: '+byTask+'\nПО РАЗДЕЛАМ: '+bySec;
+
+  var wrong = R.rows.filter(function(r){ return !r.ok; });
+  var lines = [], curTask = null;
+  wrong.forEach(function(r){
+    if (curTask !== r.task.id){
+      curTask = r.task.id;
+      lines.push('');
+      lines.push('Task '+r.task.id+' ('+r.task.section+'):');
+    }
+    var g = givenText(r.task, r.it);
+    lines.push('  '+r.task.id+'.'+r.it.n+' ['+r.level+'] '+
+      (g === null ? 'нет ответа' : '«'+g+'»') + ' → «'+correctText(r.task, r.it)+'»');
+  });
+  var errors = 'ОШИБКИ ('+wrong.length+' из '+CONFIG.TOTAL_MARKS+')'+
+               (wrong.length ? ':' : ' — ошибок нет') + lines.join('\n');
+  if (errors.length > CONFIG.ERR_LIMIT) errors = errors.slice(0, CONFIG.ERR_LIMIT-30)+'\n…(отчёт обрезан)';
+
+  var tp = function(k){ return k+' '+R.tier[k][0]+'/'+R.tier[k][1]; };
+  var level = R.level+'  [лестница '+R.ladder+' · полоса '+R.band+' '+R.pct+'%]  '+
+              tp('B1+')+' · '+tp('B2')+' · '+tp('B2+')+' · '+tp('C1');
+
+  var prompt = null;
+  var wTask = DATA[DATA.length-1];
+  if (S.wPrompt) for (var i=0;i<wTask.prompts.length;i++)
+    if (wTask.prompts[i].id === S.wPrompt) prompt = wTask.prompts[i].t;
+  var writing = 'ТЕМА '+(S.wPrompt||'—')+': '+(prompt||'не выбрана')+
+                ' ('+wordCount(S.wText)+' слов)\n\n'+S.wText;
+  if (writing.length > CONFIG.WRITING_LIMIT) writing = writing.slice(0, CONFIG.WRITING_LIMIT-30)+'\n…(обрезано)';
+
+  return {
+    firstName: S.student.first,
+    surname:   S.student.last,
+    group:     S.student.group,
+    score:     R.total+' / '+CONFIG.TOTAL_MARKS+' ('+R.pct+'%) — оценка '+R.grade,
+    level:     level,
+    time:      time,
+    byTask:    byTaskField,
+    errors:    errors,
+    writing:   writing
+  };
+}
+function reportAsText(p){
+  return S.student.last+' '+S.student.first+', '+S.student.group+'\n'+
+    p.score+'\n'+p.level+'\n'+p.time+'\n\n'+p.byTask+'\n\n'+p.errors;
+}
+
+/* ---------------------------------------------------------------------
+   15. ОТПРАВКА В GOOGLE ФОРМУ
+   Два маршрута подряд: fetch с mode:'no-cors', при исключении —
+   скрытая форма в iframe. Ответ прочитать нельзя ни в одном случае,
+   поэтому есть таймаут-страховка, чтобы ученик не завис на «Submitting…».
+   ------------------------------------------------------------------ */
+function formURL(){
+  return 'https://docs.google.com/forms/d/e/'+CONFIG.FORM_ID+'/formResponse';
+}
+function payloadPairs(p){
+  var pairs = [], skipped = [];
+  Object.keys(CONFIG.ENTRY).forEach(function(k){
+    var id = CONFIG.ENTRY[k];
+    if (!/^entry\.\d+$/.test(id)){ skipped.push(k+' ('+id+')'); return; }
+    pairs.push([id, p[k] == null ? '' : String(p[k])]);
+  });
+  if (skipped.length) console.warn('Поля без реального entry-ID, не отправлены: '+skipped.join(', '));
+  return pairs;
+}
+function sendFetch(pairs){
+  /* URLSearchParams, а не FormData: тело уходит как
+     application/x-www-form-urlencoded — тот же формат, что и у запасного
+     маршрута через скрытую форму, и самый обкатанный для /formResponse.
+     Этот Content-Type входит в список разрешённых при mode:'no-cors'. */
+  var body = new URLSearchParams();
+  pairs.forEach(function(kv){ body.append(kv[0], kv[1]); });
+  return fetch(formURL(), {method:'POST', mode:'no-cors', body:body});
+}
+function sendIframe(pairs){
+  return new Promise(function(resolve){
+    var f = document.createElement('form');
+    f.action = formURL(); f.method = 'POST'; f.target = 'gfsink'; f.style.display = 'none';
+    pairs.forEach(function(kv){
+      var i = document.createElement('input');
+      i.type = 'hidden'; i.name = kv[0]; i.value = kv[1]; f.appendChild(i);
+    });
+    document.body.appendChild(f);
+    var sink = el('gfsink'), done = false;
+    var fin = function(){ if (!done){ done = true; try{ f.remove(); }catch(e){} resolve(); } };
+    sink.addEventListener('load', fin, {once:true});
+    setTimeout(fin, 5000);
+    f.submit();
+  });
+}
+
+var submitting = false;
+function submitAll(auto){
+  if (submitting) return;
+  submitting = true;
+  if (timerId){ clearInterval(timerId); timerId = null; }
+
+  var R, p;
+  try { R = score(); p = buildReport(R, auto); }
+  catch(e){ console.error(e); app('<div class="wrap final"><p>'+esc(T.loadErr)+'</p></div>'); return; }
+
+  var pairs = payloadPairs(p);
+  screenSending();
+
+  var settled = false;
+  var finish = function(okState){
+    if (settled) return;
+    settled = true;
+    lsDel(CONFIG.STORE_PROG);
+    lsSet(CONFIG.STORE_DONE, {name:S.student.last+' '+S.student.first, at:Date.now()});
+    okState ? screenDone(auto) : screenFail(p, pairs, auto);
+  };
+  setTimeout(function(){ finish(true); }, 6000);   // страховка от вечного «Submitting…»
+
+  var attempt = function(retry){
+    var viaFetch;
+    try { viaFetch = sendFetch(pairs); }
+    catch(e){ viaFetch = Promise.reject(e); }
+    viaFetch.then(function(){ finish(true); })
+      .catch(function(){
+        sendIframe(pairs).then(function(){ finish(true); })
+          .catch(function(){ retry ? attempt(false) : finish(false); });
+      });
+  };
+  attempt(true);
+}
+
+/* ---------------------------------------------------------------------
+   16. ФИНАЛЬНЫЕ ЭКРАНЫ
+   ------------------------------------------------------------------ */
+function screenSending(){
+  app('<div class="wrap final"><p class="muted">'+esc(T.sending)+'</p></div>');
+}
+function screenDone(auto){
+  app('<div class="wrap"><div class="card final">'+
+    '<div class="tick">✓</div>'+
+    '<h2>'+esc(auto ? T.timeUp : T.doneTitle)+'</h2>'+
+    '<p class="muted">'+esc(T.doneSub)+'</p>'+
+  '</div></div>');
+}
+function screenFail(p, pairs, auto){
+  app('<div class="wrap"><div class="card final">'+
+    '<div class="tick warn">!</div>'+
+    '<h2>'+esc(T.failTitle)+'</h2>'+
+    '<p class="muted">'+esc(T.failSub)+'</p>'+
+    '<pre class="res" id="res">'+esc(reportAsText(p))+'</pre>'+
+    '<div class="btn-row">'+
+      '<button class="btn btn-ghost" id="cp">'+esc(T.copy)+'</button>'+
+      '<button class="btn" id="rt">'+esc(T.retry)+'</button>'+
+    '</div>'+
+  '</div></div>');
+  el('cp').onclick = function(){
+    var txt = el('res').textContent, b = el('cp');
+    var ok = function(){ b.textContent = T.copied; };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok, function(){ sel(); });
+    else sel();
+    function sel(){
+      var r = document.createRange(); r.selectNodeContents(el('res'));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      try { document.execCommand('copy'); ok(); } catch(e){}
+    }
+  };
+  el('rt').onclick = function(){
+    el('rt').disabled = true;
+    sendIframe(pairs).then(function(){ screenDone(auto); });
+  };
+}
+function screenAlready(d){
+  app('<div class="wrap"><div class="card final">'+
+    '<div class="tick stop">✓</div>'+
+    '<h2>'+esc(T.alreadyTitle)+'</h2>'+
+    '<p class="muted">'+esc(d.name||'')+(d.at ? ' · '+stamp(d.at) : '')+'</p>'+
+  '</div></div>');
+}
+
+/* ---------------------------------------------------------------------
+   17. СТАРТ
+   ------------------------------------------------------------------ */
+(function boot(){
+  try {
+    var done = lsGet(CONFIG.STORE_DONE);
+    if (done){ screenAlready(done); return; }
+
+    var prog = lsGet(CONFIG.STORE_PROG);
+    if (prog && prog.startedAt && prog.student && prog.student.first){
+      S = prog;
+      S.ans = S.ans || {}; S.orders = S.orders || {};
+      S.plays = S.plays || 0; S.tabAway = S.tabAway || 0;
+      S.wText = S.wText || ''; S.taskIdx = S.taskIdx || 0;
+      if (S.taskIdx >= DATA.length) S.taskIdx = DATA.length-1;
+      if (msLeft() <= 0){ submitAll(true); return; }   // время вышло, пока его не было
+      startTimer(); renderTask(); return;
+    }
+    screenStart();
+  } catch(e){
+    console.error(e);
+    app('<div class="wrap final"><p>'+esc(T.loadErr)+'</p></div>');
+  }
+})();
+</script>
+</body>
+</html>
